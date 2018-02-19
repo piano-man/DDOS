@@ -7,8 +7,19 @@ echo enter destination ip
 read dip
 echo enter destination port
 read dport
-iptables -t nat -A PREROUTING -p tcp -i $iname --dport $iport -j DNAT --to-destination $dip:$dport
-iptables -A FORWARD -p tcp -d $dip --dport $dport -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
-iptables -t nat -A POSTROUTING -j MASQUERADE
-iptables -A INPUT -i $iname -p tcp --destination-port $dport -s $dip -j DROP
+counter=1
+while [ $counter -eq 1 ]
+do
+ output="$(netstat -n -p|grep SYN_REC | wc -l)"
+ if [ "$output" -gt 0 ]
+ then
+  break
+ fi
+ echo true
+done
+echo update time
+sudo iptables -t nat -A PREROUTING -p tcp -i $iname --dport $iport -j DNAT --to-destination $dip:$dport
+sudo iptables -A FORWARD -p tcp -d $dip --dport $dport -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+sudo iptables -t nat -A POSTROUTING -j MASQUERADE
+sudo iptables -A INPUT -i $iname -p tcp --destination-port $dport -s $dip -j DROP
 
