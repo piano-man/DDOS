@@ -4,14 +4,11 @@ abi = JSON.parse('[{"constant":false,"inputs":[{"name":"ipAddress","type":"strin
 
 var contractAddress = '0xcc3373806ad09e822de3579f38b080dc461332a4'
 //personal.unlockAccount(web3.eth.defaultAccount)
-var attackers = require('./attackers.json')
+var attackers = require('./logs.json')
 console.log(attackers)
 var attackers_list = []
 var len = attackers.length 
-for(var i=0;i<len;i++)
-{
-  attackers_list.push(attackers[i].ipAddress)
-}
+attackers_list = attackers.ipAddress;
 console.log(attackers_list)
 VotingContract = web3.eth.contract(abi);
 // In your nodejs console, execute contractInstance.address to get the address at which the contract is deployed and change the line below to use your deployed address
@@ -22,10 +19,17 @@ var ip1 = Date.now()
 for(let i = 0;i<attackers_list.length;i++)
 {
 contractInstance.updateIpList(attackers_list[i],ip1);
-let val = contractInstance.getIpList(attackers_list[i]).toString();
-console.log(val);
+//let val = contractInstance.getIpList(attackers_list[i]).toString();
+//console.log(val);
 }
 
+let val = contractInstance.getListLength();
+console.log(val);
+for(let i=0;i<val;i++)
+{
+  let val = contractInstance.getIpList(i).toString();
+  console.log(val)
+}
 
 
 

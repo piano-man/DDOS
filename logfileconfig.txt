@@ -1,0 +1,13 @@
+Open your /etc/rsyslog.conf file:
+# vi /etc/rsyslog.conf
+
+Append following line
+kern.warning /var/log/iptables.log
+
+Save and close the file.
+
+Restart the syslogd (Debian / Ubuntu Linux):
+# /etc/init.d/rsyslog restart
+
+//command to store source ip's in a text file
+grep -E -o "SRC=([0-9]{1,3}[\.]){3}[0-9]{1,3}" iptables.log | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}" > output1.txt
