@@ -2,7 +2,7 @@ import subprocess
 import json
 dict = {}
 dict.setdefault("ipAddress",[])
-with open('test.txt') as f, open('logs.json','w') as fp:
+with open('test.txt') as f, open('logs.json','w') as fp,open('reconstruct.txt','w') as fp1:
     for line in f:
         temp = []
         temp=line.split(" ")
@@ -16,5 +16,9 @@ with open('test.txt') as f, open('logs.json','w') as fp:
                 dict['ipAddress'].append(ip)
             if b'down' in output:
                 dict['ipAddress'].append(ip)
+            if b'open' in output:
+                fp1.write(line)
+            if b'up' in output:
+                fp1.write(line)
 
     json.dump(dict,fp)           
