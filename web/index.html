@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Blacklisted IP Table</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <section>
+        <h1>List of blacklisted IP Addresses</h1>
+        <div class="tbl-header">
+            <table cellpadding="0" cellspacing="0" border="0">
+                <thead>
+                    <tr>
+                        <th>IP Address</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="tbl-content">
+            <table id="ip_table" cellpadding="0" cellspacing="0" border="0">
+            </table>
+        </div>
+    </section>
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+       $.getJSON("dummy.json", function(data){
+            var ip_data = '';
+            $.each(data, function(key, value){
+                ip_data += '<tr>';
+                ip_data += '<td>' + value.ipAddress + '</td>';
+                ip_data += '<td>' + value.timestamp + '</td>';
+                ip_data += '</tr>';
+            });
+            $('#ip_table').append(ip_data);
+       });
+    });
+</script>
